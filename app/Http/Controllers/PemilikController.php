@@ -12,6 +12,6 @@ class PemilikController extends Controller
     {
         $mobils = Mobil::orderBy('created_at', 'desc')->get();
 
-        return view('pemilik.dashboard', compact('mobils'));
+        return view('home', compact('mobils'));
     }
 }

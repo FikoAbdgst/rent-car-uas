@@ -7,7 +7,9 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PemilikController;
 use App\Livewire\LaporanComponent;
+use App\Livewire\PenyewaComponent;
 use App\Livewire\TransaksiComponent;
+use App\Livewire\UnifiedTransaksi;
 
 // Public routes
 Route::middleware('guest')->group(function () {
@@ -22,8 +24,38 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('login/keluar', [LoginController::class, 'keluar'])->name('login.keluar');
 
+
+    Route::get('mobil', function () {
+        return view('mobil.index');
+    })->name('mobil');
+    Route::get('transaksi', function () {
+        return view('transaksi.index');
+    })->name('transaksi');
+
+    Route::get('penyewa', function () {
+        return view('penyewa.index');
+    })->name('penyewa');
+
+    Route::get('expense', function () {
+        return view('expense.index');
+    })->name('expense');
+
     // Admin only routes
     Route::middleware('role:admin')->group(function () {
+
+
+        // Redirect route lama ke unified transaksi
+        Route::redirect('transaksiProses', 'transaksi')->name('transaksiProses');
+        Route::redirect('transaksiSelesai', 'transaksi')->name('transaksiSelesai');
+
+        Route::get('sewa', function () {
+            return view('sewa.index');
+        })->name('sewa');
+    });
+
+    // Pemilik only routes
+    Route::middleware('role:pemilik')->group(function () {
+        Route::get('pemilik/dashboard', [PemilikController::class, 'dashboard'])->name('pemilik.dashboard');
         Route::get('users', function () {
             return view('users.index');
         })->name('users');
@@ -31,33 +63,13 @@ Route::middleware('auth')->group(function () {
         Route::get('laporan', function () {
             return view('laporan.index');
         })->name('laporan');
-    });
 
-    // Pemilik only routes
-    Route::middleware('role:pemilik')->group(function () {
-        Route::get('pemilik/dashboard', [PemilikController::class, 'dashboard'])->name('pemilik.dashboard');
+
+        Route::get('/log-activity', function () {
+            return view('log-activity');
+        })->name('log-activity');
     });
 
     // Admin and Pemilik routes
-    Route::middleware('role:admin,pemilik')->group(function () {
-        Route::get('mobil', function () {
-            return view('mobil.index');
-        })->name('mobil');
-
-        Route::get('transaksi', function () {
-            return view('transaksi.index');
-        })->name('transaksi');
-
-        Route::get('transaksiProses', function () {
-            return view('prosesTransaksi.proses');
-        })->name('transaksiProses');
-
-        Route::get('transaksiSelesai', function () {
-            return view('prosesTransaksi.index');
-        })->name('transaksiSelesai');
-
-        Route::get('sewa', function () {
-            return view('sewa.index');
-        })->name('sewa');
-    });
+    Route::middleware('role:admin,pemilik')->group(function () {});
 });

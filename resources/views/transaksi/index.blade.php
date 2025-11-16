@@ -2,6 +2,6 @@
 @section('title', 'Transaksi - Rent Car')
 
 @section('content')
-    @livewire('LihatTransaksi')
-    
+    @livewire('unified-transaksi')
+
 @endsection

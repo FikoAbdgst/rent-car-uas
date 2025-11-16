@@ -9,18 +9,7 @@ class LoginController extends Controller
 {
     public function index()
     {
-        if (Auth::check()) {
-            $user = Auth::user();
 
-            // Redirect based on role
-            if ($user->role === 'admin') {
-                return redirect()->route('home');
-            } elseif ($user->role === 'pemilik') {
-                return redirect()->route('pemilik.dashboard');
-            }
-
-            return redirect()->route('home');
-        }
 
         return view('login.index');
     }
@@ -40,14 +29,6 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             $user = Auth::user();
-
-            if ($user->role === 'admin') {
-                return redirect()->route('home')->with('success', 'Selamat datang Admin!');
-            } elseif ($user->role === 'pemilik') {
-                return redirect()->route('pemilik.dashboard')->with('success', 'Selamat datang Pemilik!');
-            } else {
-                return redirect()->route('home') . with('success', 'Selamat datang!');
-            }
         }
 
         return back()->withErrors([

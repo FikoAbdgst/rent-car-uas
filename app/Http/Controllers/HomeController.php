@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(){
-
+    public function index()
+    {
         $data['mobil'] = Mobil::count();
         $data['user'] = User::count();
-        $data['transaksi'] = Transaksi::where('status', 'SELESAI')->sum('total');
-        return view('home' ,$data);
+        $data['transaksi'] = Transaksi::where('status', 'SELESAI')->sum('totalharga'); // Changed 'total' to 'totalharga'
+        return view('home', $data);
     }
 }

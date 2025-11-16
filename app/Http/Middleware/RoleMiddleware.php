@@ -30,7 +30,7 @@ class RoleMiddleware
         if ($user->role === 'admin') {
             return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         } elseif ($user->role === 'pemilik') {
-            return redirect()->route('pemilik.dashboard')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         } else {
             return redirect()->route('login')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
         }
